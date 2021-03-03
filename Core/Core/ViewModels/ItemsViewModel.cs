@@ -10,20 +10,20 @@ namespace Core.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
+        private Recipe _selectedItem;
 
-        public ObservableCollection<Item> Items { get; }
+        public ObservableCollection<Recipe> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<Recipe> ItemTapped { get; }
 
         public ItemsViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<Recipe>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<Recipe>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
         }
@@ -57,7 +57,7 @@ namespace Core.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public Recipe SelectedItem
         {
             get => _selectedItem;
             set
@@ -72,7 +72,7 @@ namespace Core.ViewModels
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Recipe item)
         {
             if (item == null)
                 return;

@@ -49,10 +49,10 @@ namespace Core.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            Recipe newItem = new Recipe()
             {
                 Id = Guid.NewGuid().ToString(),
-                Text = Text,
+                Name = Text,
                 Description = Description
             };
 
