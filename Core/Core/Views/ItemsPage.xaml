@@ -5,7 +5,8 @@
              Title="{Binding Title}"
              xmlns:local="clr-namespace:Core.ViewModels"  
              xmlns:model="clr-namespace:Core.Models"  
-             x:Name="BrowseItemsPage">
+             x:Name="BrowseItemsPage"
+             BackgroundColor="{AppThemeBinding Light=White, Dark=#414042}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
@@ -23,7 +24,7 @@
                     <StackLayout Padding="10" x:DataType="model:Recipe">
                         <Label Text="{Binding Name}" 
                             LineBreakMode="NoWrap" 
-                            Style="{DynamicResource ListItemTextStyle}" 
+                            TextColor="{AppThemeBinding Light=Green, Dark=Red}"
                             FontSize="16" />
                         <Label Text="{Binding Description}" 
                             LineBreakMode="NoWrap"
