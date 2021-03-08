@@ -6,10 +6,9 @@
              BackgroundColor="{AppThemeBinding Light=White, Dark=#414042}">
 
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Text}" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Description}" FontSize="Small"/>
+        <Label Text="{Binding Name}" FontSize="Title"/>
+        <Label Text="{Binding Info}" FontSize="Medium"/>
+        <Label Text="{Binding Description}" FontSize="Body"/>
     </StackLayout>
     
 </ContentPage>

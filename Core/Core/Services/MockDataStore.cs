@@ -14,12 +14,17 @@ namespace Core.Services
         {
             items = new List<Recipe>()
             {
-                new Recipe { Id = Guid.NewGuid().ToString(), Name = "First item", Description="This is an item description." },
-                new Recipe { Id = Guid.NewGuid().ToString(), Name = "Second item", Description="This is an item description." },
-                new Recipe { Id = Guid.NewGuid().ToString(), Name = "Third item", Description="This is an item description." },
-                new Recipe { Id = Guid.NewGuid().ToString(), Name = "Fourth item", Description="This is an item description." },
-                new Recipe { Id = Guid.NewGuid().ToString(), Name = "Fifth item", Description="This is an item description." },
-                new Recipe { Id = Guid.NewGuid().ToString(), Name = "Sixth item", Description="This is an item description." }
+                new Recipe
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Sós sajt",
+                    Description = "Megsózod a sajtotMegsózod a sajtotMegsózod a sajtotMegsózod a sajtotMegsózod a sajtotMegsózod a sajtotMegsózod a sajtotMegsózod a sajtotMegsózod a sajtotMegsózod a sajtot",
+                    Time = new TimeSpan(0, 0, 10),
+                    Difficulty = Difficulty.Easy,
+                    Servings = 1,
+                    Calories = 20
+                }
+                //{ Id = Guid.NewGuid().ToString(), Name = "First item", Description="This is an item description." },
             };
         }
 
