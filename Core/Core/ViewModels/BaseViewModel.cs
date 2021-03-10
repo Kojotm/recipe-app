@@ -10,7 +10,7 @@ namespace Core.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Recipe> DataStore => DependencyService.Get<IDataStore<Recipe>>();
+        public FirebaseHelper DataStore => new FirebaseHelper();
 
         bool isBusy = false;
         public bool IsBusy

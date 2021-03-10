@@ -50,7 +50,7 @@ namespace Core.ViewModels
         {
             try
             {
-                var item = await DataStore.GetItemAsync(itemId);
+                var item = await DataStore.GetRecipe(itemId);
                 Id = item.Id;
                 Name = item.Name;
                 Description = item.Description;
