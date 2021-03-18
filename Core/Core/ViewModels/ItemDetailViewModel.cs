@@ -13,6 +13,8 @@ namespace Core.ViewModels
         private string name;
         private string description;
         private string info;
+
+        public Command DeleteItemCommand { get; }
         public string Id { get; set; }
 
         public string Name
@@ -46,6 +48,11 @@ namespace Core.ViewModels
             }
         }
 
+        public ItemDetailViewModel()
+        {
+            DeleteItemCommand = new Command(OnDeleteItem);
+        }
+
         public async void LoadItemId(string itemId)
         {
             try
@@ -60,6 +67,11 @@ namespace Core.ViewModels
             {
                 Debug.WriteLine("Failed to Load Item");
             }
+        }
+
+        private async void OnDeleteItem(object rec)
+        {
+            //await DataStore.DeleteRecipe("");
         }
     }
 }

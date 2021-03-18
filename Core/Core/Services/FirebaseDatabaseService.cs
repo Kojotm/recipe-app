@@ -5,23 +5,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Firebase.Database;
 using Firebase.Database.Query;
+using Firebase.Auth;
 using Core.Models;
 
 namespace Core.Services
 {
-    public class FirebaseHelper
+    public class FirebaseDatabaseService
     {
         private readonly string ChildName = "Recipes";
-        private readonly FirebaseClient firebase = new FirebaseClient(@"https://recipe-app-a8b16-default-rtdb.europe-west1.firebasedatabase.app/");
+        private readonly FirebaseClient firebase = new FirebaseClient(
+        @"https://recipe-app-a8b16-default-rtdb.europe-west1.firebasedatabase.app/",
+        new FirebaseOptions
+        {
+            AuthTokenAsyncFactory = () => LoginAsync()
+        });
 
         public async Task<List<Recipe>> GetAllRecipes()
         {
-            //var objects = await firebase.Child(ChildName).OnceAsync<Recipe>();
-            //List<Recipe> recipes = new List<Recipe>();
-            //foreach(FirebaseObject<Recipe> r in objects)
-            //{
-
-            //}
             return (await firebase.Child(ChildName).OnceAsync<Recipe>()).Select(item => item.Object).ToList();
         }
 
@@ -45,6 +45,17 @@ namespace Core.Services
                 .Child(ChildName)
                 .OnceAsync<Recipe>()).FirstOrDefault(a => a.Object.Id == personId);
             await firebase.Child(ChildName).Child(toDeletePerson.Key).DeleteAsync();
+        }
+
+        public static async Task<string> LoginAsync()
+        {
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(@"AIzaSyDn1o6wRBid1-ayS-zaedCTsQFG53CpQHc"));
+            var thing = await authProvider.CreateUserWithEmailAndPasswordAsync(@"nukaneer@gmail.com", @"password1", "Kojot");
+            var auth = await authProvider.SignInWithOAuthAsync(FirebaseAuthType.EmailAndPassword, "");
+            // manage oauth login to Google / Facebook etc.
+            // call FirebaseAuthentication.net library to get the Firebase Token
+            // return the token
+            return "";
         }
     }
 }

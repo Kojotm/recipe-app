@@ -5,6 +5,10 @@
              Title="{Binding Title}"
              BackgroundColor="{AppThemeBinding Light=White, Dark=#414042}">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delete" Command="{Binding DeleteItemCommand}" CommandParameter="{Binding .}"/>
+    </ContentPage.ToolbarItems>
+    
     <StackLayout Spacing="20" Padding="15">
         <Label Text="{Binding Name}" FontSize="Title"/>
         <Label Text="{Binding Info}" FontSize="Medium"/>
