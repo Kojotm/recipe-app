@@ -16,8 +16,7 @@ namespace Core.ViewModels
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
-            this.PropertyChanged +=
-                (_, __) => SaveCommand.ChangeCanExecute();
+            PropertyChanged += (_, __) => SaveCommand.ChangeCanExecute();
         }
 
         private bool ValidateSave()
@@ -49,14 +48,14 @@ namespace Core.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            Recipe newItem = new Recipe()
             {
                 Id = Guid.NewGuid().ToString(),
-                Text = Text,
+                Name = Text,
                 Description = Description
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.AddRecipe(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

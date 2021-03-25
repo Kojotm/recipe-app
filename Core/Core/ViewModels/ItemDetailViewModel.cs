@@ -10,14 +10,23 @@ namespace Core.ViewModels
     public class ItemDetailViewModel : BaseViewModel
     {
         private string itemId;
-        private string text;
+        private string name;
         private string description;
+        private string info;
+
+        public Command DeleteItemCommand { get; }
         public string Id { get; set; }
 
-        public string Text
+        public string Name
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+
+        public string Info
+        {
+            get => info;
+            set => SetProperty(ref info, value);
         }
 
         public string Description
@@ -39,19 +48,30 @@ namespace Core.ViewModels
             }
         }
 
+        public ItemDetailViewModel()
+        {
+            DeleteItemCommand = new Command(OnDeleteItem);
+        }
+
         public async void LoadItemId(string itemId)
         {
             try
             {
-                var item = await DataStore.GetItemAsync(itemId);
+                var item = await DataStore.GetRecipe(itemId);
                 Id = item.Id;
-                Text = item.Text;
+                Name = item.Name;
                 Description = item.Description;
+                Info = $"{item.Calories}\n{item.Difficulty}\n{item.Time}";
             }
             catch (Exception)
             {
                 Debug.WriteLine("Failed to Load Item");
             }
+        }
+
+        private async void OnDeleteItem(object rec)
+        {
+            //await DataStore.DeleteRecipe("");
         }
     }
 }
