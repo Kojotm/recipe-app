@@ -12,9 +12,13 @@ namespace Core.Services
 {
     public class FirebaseDatabaseService
     {
-        private readonly string ChildName = "Recipes";
+        private const string FirebaseAppKey = @"AIzaSyDn1o6wRBid1-ayS-zaedCTsQFG53CpQHc";
+        private const string FirebaseAppUri = @"https://recipe-app-a8b16-default-rtdb.europe-west1.firebasedatabase.app/";
+        private static User CurrentUser;
+
+        private readonly string ChildName = "Libraries";
         private readonly FirebaseClient firebase = new FirebaseClient(
-        @"https://recipe-app-a8b16-default-rtdb.europe-west1.firebasedatabase.app/",
+        FirebaseAppUri,
         new FirebaseOptions
         {
             AuthTokenAsyncFactory = () => LoginAsync()
@@ -22,12 +26,16 @@ namespace Core.Services
 
         public async Task<List<Recipe>> GetAllRecipes()
         {
-            return (await firebase.Child(ChildName).OnceAsync<Recipe>()).Select(item => item.Object).ToList();
+            return (await firebase.Child(ChildName)
+                                  .Child(CurrentUser.LocalId)
+                                  .OnceAsync<Recipe>())
+                                  .Select(item => item.Object)
+                                  .ToList();
         }
 
         public async Task AddRecipe(Recipe r)
         {
-            await firebase.Child(ChildName).PostAsync(r);
+            await firebase.Child(ChildName).Child(CurrentUser.LocalId).PostAsync(r);
         }
 
         public async Task<Recipe> GetRecipe(string personId)
@@ -35,6 +43,7 @@ namespace Core.Services
             var allPersons = await GetAllRecipes();
             await firebase
                 .Child(ChildName)
+                .Child(CurrentUser.LocalId)
                 .OnceAsync<Recipe>();
             return allPersons.FirstOrDefault(a => a.Id == personId);
         }
@@ -49,13 +58,10 @@ namespace Core.Services
 
         public static async Task<string> LoginAsync()
         {
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(@"AIzaSyDn1o6wRBid1-ayS-zaedCTsQFG53CpQHc"));
-            var thing = await authProvider.CreateUserWithEmailAndPasswordAsync(@"nukaneer@gmail.com", @"password1", "Kojot");
-            var auth = await authProvider.SignInWithOAuthAsync(FirebaseAuthType.EmailAndPassword, "");
-            // manage oauth login to Google / Facebook etc.
-            // call FirebaseAuthentication.net library to get the Firebase Token
-            // return the token
-            return "";
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(FirebaseAppKey));
+            var thing = await authProvider.SignInWithEmailAndPasswordAsync(@"nukaneer@gmail.com", @"password1");
+            CurrentUser = thing.User;
+            return thing.FirebaseToken;
         }
     }
 }
